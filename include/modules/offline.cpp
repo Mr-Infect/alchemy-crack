@@ -12,11 +12,11 @@
 #include <thread>
 #include <chrono>
 
-// Constructor
+
 OfflineCracker::OfflineCracker(const std::string& hash, Wordlist& wl)
     : target_hash(hash), wordlist(wl) {}
 
-// SHA256 hash function
+
 std::string OfflineCracker::hash(const std::string& input) {
     unsigned char digest[SHA256_DIGEST_LENGTH];
     SHA256((unsigned char*)input.c_str(), input.size(), digest);
@@ -28,7 +28,7 @@ std::string OfflineCracker::hash(const std::string& input) {
     return ss.str();
 }
 
-// Main cracking logic
+
 void OfflineCracker::run() {
     std::cout << "[*] Starting multithreaded brute force...\n";
 
@@ -39,10 +39,10 @@ void OfflineCracker::run() {
 
     ThreadPool pool(std::thread::hardware_concurrency());
 
-    // Start TUI
+    
     start_ui();
 
-    // UI update thread
+    
     std::thread ui_thread([&]() {
         while (!found) {
             update_ui(metrics.attempts.load());
@@ -50,7 +50,7 @@ void OfflineCracker::run() {
         }
     });
 
-    // Submit tasks
+    
     for (const auto& word : words) {
         if (found) break;
 
@@ -69,7 +69,7 @@ void OfflineCracker::run() {
                 if (hashed == target_hash) {
                     found = true;
 
-                    // Stop UI safely before printing
+                    
                     stop_ui();
 
                     std::cout << "\n[+] Password found: " << variant << "\n";
@@ -79,15 +79,15 @@ void OfflineCracker::run() {
         });
     }
 
-    // Wait until found
+    
     while (!found) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
-    // Shutdown thread pool
+    
     pool.shutdown();
 
-    // Stop UI thread
+    
     if (ui_thread.joinable())
         ui_thread.join();
 
