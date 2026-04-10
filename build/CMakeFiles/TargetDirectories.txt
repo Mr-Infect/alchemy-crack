@@ -1,0 +1,3 @@
+/home/ghost/alchemy_crack/build/CMakeFiles/alchemy-crack.dir
+/home/ghost/alchemy_crack/build/CMakeFiles/edit_cache.dir
+/home/ghost/alchemy_crack/build/CMakeFiles/rebuild_cache.dir
